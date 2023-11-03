@@ -9,3 +9,5 @@ Valitsisin aiheekseni keskustelusovelluksen. Esimerkkiaiheen mukaisesti toiminno
  - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
  - Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
  - Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
+
+sudo su - postgres
