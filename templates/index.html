@@ -1,0 +1,37 @@
+{% if session.username %}
+{% if session.admin == True %}
+<form action="/create" method="POST">
+<p>Keskustelun nimi:<br>
+<input type="text" name="topic"></p>
+<input type="submit" value="Luo keskustelu">
+<br>
+<a href="/remove">Poista keskustelu</a>
+{% endif %}
+
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+Viestien määrä: {{ count }}
+<hr>
+{% for message in messages %}
+{{ message.content }}
+<hr>
+{% endfor %}
+<a href="/new">Lähetä viesti</a>
+
+
+{% else %}
+<form action="/login" method="POST">
+<p>Tunnus:<br>
+<input type="text" name="username"></p>
+<p>Salasana:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Kirjaudu">
+</form>
+<form action="/register" method="POST">
+<p>Tunnus:<br>
+<input type="text" name="username"></p>
+<p>Salasana:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Rekisteröidy">
+</form>
+{% endif %}
