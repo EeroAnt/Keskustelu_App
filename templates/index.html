@@ -1,13 +1,13 @@
 {% if session.username %}
 {% if session.admin == True %}
 <form action="/create" method="POST">
-<p>Keskustelun nimi:<br>
+<p>Keskustelualueen nimi:<br>
 <input type="text" name="topic"></p>
 <input type="submit" value="Luo keskustelu">
 <br>
 </form>
 <form action="/remove" method="POST">
-<p>Keskustelun nimi:<br>
+<p>Keskustelualueen nimi:<br>
 <input type="text" name="topic"></p>
 <input type="submit" value="Poista keskustelu">
 </form>
@@ -18,11 +18,11 @@
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
 <br>
-Keskustelut:
+Keskustelualueet:
 <br>
 <br>
 {% for topic in topics %}
-<a href="/conversation/{{ topic.id }}">{{ topic.topic }}</a>
+<a href="/topic{{ topic.id }}">{{ topic.topic }}</a>
 <hr>
 {% endfor %}
 

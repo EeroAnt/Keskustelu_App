@@ -14,4 +14,8 @@
 <p>Keskustelu ei löytynyt</p>
 {% endif %}
 
+{% if session.error == "topic_not_found_error" %}
+<p>Väärä käyttäjä</p>
+{% endif %}
+
 <a href="/return_from_error">Palaa takaisin</a>
