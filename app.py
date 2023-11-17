@@ -8,7 +8,7 @@ from sqlalchemy.sql import text
 
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv('DATABASE_URI')#"postgresql+psycopg2:///postgres"
+app.config["SQLALCHEMY_DATABASE_URI"] = getenv('DATABASE_URI')
 db = SQLAlchemy(app)
 
 @app.route("/")
@@ -32,7 +32,8 @@ def login():
                 session["admin"] = True
             session["username"] = username
         else:
-            return redirect("/login_error")
+            session["error"]="login_error"
+            return redirect("/error")
     return redirect("/")
 
 @app.route("/logout")
