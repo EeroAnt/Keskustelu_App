@@ -5,19 +5,26 @@
 <input type="text" name="topic"></p>
 <input type="submit" value="Luo keskustelu">
 <br>
-<a href="/remove">Poista keskustelu</a>
+</form>
+<form action="/remove" method="POST">
+<p>Keskustelun nimi:<br>
+<input type="text" name="topic"></p>
+<input type="submit" value="Poista keskustelu">
+</form>
+<br>
+    
 {% endif %}
 
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
-Viestien määrä: {{ count }}
-<hr>
-{% for message in messages %}
-{{ message.content }}
+<br>
+Keskustelut:
+<br>
+<br>
+{% for topic in topics %}
+<a href="/conversation/{{ topic.id }}">{{ topic.topic }}</a>
 <hr>
 {% endfor %}
-<a href="/new">Lähetä viesti</a>
-
 
 {% else %}
 <form action="/login" method="POST">

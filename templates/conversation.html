@@ -1,0 +1,17 @@
+{{ topic }}
+<br>
+<hr>
+{% for message in messages %}
+{{ message.username }} kirjoitti {{ message.time }}:<br>
+{{ message.message }}
+<hr>
+{% endfor %}
+<br>
+<form action="/conversation/{{ id }}/message" method="POST">
+<input type="text" name="message">
+<input type="submit" value="Lähetä">
+<input type="hidden" name="id" value="{{ id }}">
+<input type="hidden" name="topic" value="{{ topic }}">
+</form>
+<br>
+<a href="/">Takaisin</a>
