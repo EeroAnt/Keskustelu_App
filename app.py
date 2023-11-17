@@ -23,7 +23,8 @@ def login():
     result = db.session.execute(text(sql), {"username":username})
     user = result.fetchone()    
     if not user:
-        return redirect("/login_error")
+        session["error"]="login_error"
+        return redirect("/error")
     else:
         hash_value = user.password
         if check_password_hash(hash_value, password):
@@ -47,7 +48,8 @@ def register():
     hash_value = generate_password_hash(password)
     check_username = db.session.execute(text("SELECT username FROM users WHERE username=:username"), {"username":username}).fetchone()
     if check_username:
-        return redirect("/register_error")
+        session["error"]="register_error"
+        return redirect("/error")
     sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , false)"
     db.session.execute(text(sql), {"username":username, "password":hash_value})
     db.session.commit()
@@ -58,7 +60,8 @@ def create():
     topic = request.form["topic"]
     check_topic = db.session.execute(text("SELECT Topic FROM conversations WHERE Topic=:topic"), {"topic":topic}).fetchone()
     if check_topic:
-        return redirect("/topic_error")
+        session["error"]="topic_error"
+        return redirect("/error")
     sql_conversations = "INSERT INTO conversations (Topic) VALUES (:topic)"
     db.session.execute(text(sql_conversations), {"topic":topic})
     sql_add = "CREATE TABLE " + topic + " (id SERIAL PRIMARY KEY, username TEXT NOT NULL, message TEXT NOT NULL, time TIMESTAMP NOT NULL)"
@@ -66,18 +69,15 @@ def create():
     db.session.commit()
     return redirect("/")
 
-@app.route("/topic_error")
-def topic_error():
-    return render_template("topic_error.html")
-
 @app.route("/remove", methods=["POST","GET"])
 def remove():
     return redirect("/")
 
-@app.route("/login_error")
+@app.route("/error")
 def error():
-    return render_template("login_error.html")
+    return render_template("error.html")
 
-@app.route("/register_error")
-def register_error():
-    return render_template("register_error.html")
+@app.route("/return_from_error")
+def return_from_error():
+    del session["error"]
+    return redirect("/")

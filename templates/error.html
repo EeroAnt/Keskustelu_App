@@ -1,0 +1,11 @@
+{% if session.error == "login_error" %}
+<p>Virheellinen käyttäjätunnus tai salasana</p>
+{% endif %}
+{% if session.error == "register_error" %}
+<p>Käyttäjätunnus on jo olemassa</p>
+{% endif %}
+{% if session.error == "topic_error" %}
+<p>Keskustelu on jo olemassa</p>
+{% endif %}
+
+<a href="/return_from_error">Palaa takaisin</a>
