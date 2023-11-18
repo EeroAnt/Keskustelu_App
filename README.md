@@ -2,7 +2,7 @@
 
 ## Välipalautus 2
 
-Repositoirion juurihakemistossa komennoilla 'pip install -r requirements.txt', 'source venv/bin/activate' ja 'run flask' pitäisi ohjelman lähteä käyntiin, jonka jälkeen voi localhostissa ajaa ohjelmaa paikallisesti. En ole itse ihan varma, miten psql toimii, mutta tämmöstä.
+Repositoirion juurihakemistossa komennoilla 'pip install -r requirements.txt', 'source venv/bin/activate', 'psql < schema.sql' ja 'run flask' pitäisi ohjelman lähteä käyntiin, jonka jälkeen voi localhostissa ajaa ohjelmaa paikallisesti. En ole itse ihan varma, miten psql toimii, mutta tämmöstä.
 
 Tällä hetkellä sovellus on ruma, mutta perustoiminnaillisuuden rankaa on. 
  - Käyttäjän luominen ja kirjautuminen onnistuu
