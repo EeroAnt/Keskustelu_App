@@ -2,7 +2,12 @@
 
 ## Välipalautus 2
 
-Repositoirion juurihakemistossa komennoilla 'pip install -r requirements.txt', 'source venv/bin/activate', 'psql < schema.sql' ja 'run flask' pitäisi ohjelman lähteä käyntiin, jonka jälkeen voi localhostissa ajaa ohjelmaa paikallisesti. En ole itse ihan varma, miten psql toimii, mutta tämmöstä.
+Repositoirion juurihakemistossa tulee ajaa komennot
+ - 'source venv/bin/activate'
+ - 'pip install -r requirements.txt'
+ - 'psql < schema.sql'
+
+'run flask' pitäisi ohjelman lähteä käyntiin, jonka jälkeen voi localhostissa ajaa ohjelmaa paikallisesti
 
 Tällä hetkellä sovellus on ruma, mutta perustoiminnaillisuuden rankaa on. 
  - Käyttäjän luominen ja kirjautuminen onnistuu. Sovelluksen kautta luodessa käyttäjän admin-status on aina false. Admin käyttäjän luominen tapahtuu tällä hetkellä erillisellä INSERT-komenolla, jossa asetetaan admin = TRUE. En tiedä onko tämä hyvä tapa, mutta se on tapa tällä hetkellä.
