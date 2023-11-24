@@ -190,6 +190,7 @@ def return_from_edit_message():
         del session["topic_id"]
         return redirect(f"/topic{topic_id}")
 
+
 @app.route("/login",methods=["POST"])
 def login():
     username = request.form["username"]
@@ -223,12 +224,16 @@ def logout():
 def register():
     username = request.form["username"]
     password = request.form["password"]
+    admin = request.form["admin"]
     hash_value = generate_password_hash(password)
     check_username = db.session.execute(text("SELECT username FROM users WHERE username=:username"), {"username":username}).fetchone()
     if check_username:
         session["error"]="register_error"
         return redirect("/error")
-    sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , false)"
+    if admin == '1':
+        sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , true)"
+    else:
+        sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , false)"
     db.session.execute(text(sql), {"username":username, "password":hash_value})
     db.session.commit()
     return redirect("/")
