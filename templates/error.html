@@ -8,11 +8,16 @@
 {% endif %}
 
 {% if cause == "topic_error" %}
+<p>Keskustelualue on jo olemassa</p>
+{% endif %}
+
+{% if cause == "header_error" %}
 <p>Keskustelu on jo olemassa</p>
 {% endif %}
 
+
 {% if cause == "topic_not_found_error" %}
-<p>Keskustelu ei löytynyt</p>
+<p>Keskustelualue ei löytynyt</p>
 {% endif %}
 
 {% if cause == "session_error" %}
