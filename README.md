@@ -10,7 +10,6 @@ Repositoirion juurihakemistossa tulee ajaa komennot
 'run flask' pitäisi ohjelman lähteä käyntiin, jonka jälkeen voi localhostissa ajaa ohjelmaa paikallisesti
 
 Tällä hetkellä sovellus on ruma, mutta perustoiminnaillisuuden rankaa on. 
- - Käyttäjän luominen ja kirjautuminen onnistuu. Sovelluksen kautta luodessa käyttäjän admin-status on aina false. Admin käyttäjän luominen tapahtuu tällä hetkellä erillisellä INSERT-komenolla, jossa asetetaan admin = TRUE. En tiedä onko tämä hyvä tapa, mutta se on tapa tällä hetkellä.
  - admin voi luoda keskustelualueita
  - käyttäjä voi avata keskustelun keskustelualueelle
  - käyttäjä voi muokata avaamansa keskustelun otsikon tai poistaa keskustelun kokonaan
