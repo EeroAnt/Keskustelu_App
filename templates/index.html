@@ -19,13 +19,19 @@
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
 <br>
-Keskustelualueet:
-<br>
-<br>
+<table>
+    <tr>
+        <th>Keskusteluealue</th>
+        <th>Ketjujen määrä</th>
+        <th>Viestien määrä</th>
+        <th>Viimeisen viestin ajankohta</th>
+      </tr>
 {% for topic in topics %}
-<a href="/topic{{ topic.id }}">{{ topic.topic }}</a>
-<hr>
+<tr>
+<th><a href="/topic{{ topic.id }}">{{ topic.topic }}</a></th><th>{{ topic.headers }}</th><th>{{ topic.messages }}</th><th>{{ topic.latest}}</th>
+</tr>
 {% endfor %}
+</table>
 
 {% else %}
 <form action="/login" method="POST">
