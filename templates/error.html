@@ -1,21 +1,22 @@
-{% if session.error == "login_error" %}
+<!DOCTYPE html>
+{% if cause == "login_error" %}
 <p>Virheellinen käyttäjätunnus tai salasana</p>
 {% endif %}
 
-{% if session.error == "register_error" %}
+{% if cause == "register_error" %}
 <p>Käyttäjätunnus on jo olemassa</p>
 {% endif %}
 
-{% if session.error == "topic_error" %}
+{% if cause == "topic_error" %}
 <p>Keskustelu on jo olemassa</p>
 {% endif %}
 
-{% if session.error == "topic_not_found_error" %}
+{% if cause == "topic_not_found_error" %}
 <p>Keskustelu ei löytynyt</p>
 {% endif %}
 
-{% if session.error == "topic_not_found_error" %}
+{% if cause == "session_error" %}
 <p>Väärä käyttäjä</p>
 {% endif %}
 
-<a href="/return_from_error">Palaa takaisin</a>
+<a href="/">Palaa takaisin</a>

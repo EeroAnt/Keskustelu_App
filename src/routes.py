@@ -31,8 +31,7 @@ def start_conversation(topic_id):
     topic = request.form["topic"]
     check_header = db.session.execute(text(f"SELECT header FROM headers WHERE header=:header AND topic=:topic"), {"header":header,"topic":topic}).fetchone()
     if check_header:
-        session["error"]="header_error"
-        return redirect("/error")
+        return error("header_error")
     sql = f"INSERT INTO headers (username, header, topic) VALUES (:username, :header, :topic)"
     db.session.execute(text(sql), {"username":username, "header":header, "topic":topic})
     sql = f"INSERT INTO messages (username, message, time, header, topic) VALUES (:username, :message, NOW(), :header, :topic)"
@@ -59,15 +58,14 @@ def remove_conversation():
     topic_id = request.form["topic_id"]
     header = db.session.execute(text("SELECT header FROM headers WHERE id=:header_id"), {"header_id":header_id}).fetchone()[0]
     topic = db.session.execute(text("SELECT topic FROM topics WHERE id=:topic_id"), {"topic_id":topic_id}).fetchone()[0]
-    if header_owner == current_user:
+    if header_owner == current_user or session["admin"]:
         sql = "DELETE FROM headers WHERE id=:header_id"
         db.session.execute(text(sql), {"header_id":int(header_id)})
         sql = "DELETE FROM messages WHERE header=:header and topic=:topic"
         db.session.execute(text(sql), {"header":header, "topic":topic})
         db.session.commit()
     else:
-        session["error"]="session_error"
-        return redirect("/error")
+        return error("session_error")
     return redirect(f"/topic{topic_id}")
 
 
@@ -96,10 +94,7 @@ def edit_header():
         db.session.execute(text(sql), {"header":new_header, "old_header":old_header})
         db.session.commit()
     else:
-        del session["topic_id"]
-        del session["edit"]
-        session["error"]="session_error"
-        return redirect("/error")
+        return error("session_error")
     return redirect(f"/return_from_edit")
 
 
@@ -122,13 +117,12 @@ def remove_message():
     message_owner = request.form["message_owner"]
     topic_id = request.form["topic_id"]
     header_id = request.form["header_id"]
-    if message_owner == current_user:
+    if message_owner == current_user or session["admin"]:
         sql = "DELETE FROM messages WHERE id=:message_id"
         db.session.execute(text(sql), {"message_id":message_id})
         db.session.commit()
     else:
-        session["error"]="session_error"
-        return redirect("/error")
+        return error("session_error")
     return redirect(f"/topic{topic_id}/conversation{header_id}")
 
 
@@ -161,8 +155,7 @@ def edit_message():
         del session["topic_id"]
         del session["header_id"]
         del session["edit"]
-        session["error"]="session_error"
-        return redirect("/error")
+        return error("session_error")
     return redirect(f"/return_from_edit")
 
 
@@ -190,8 +183,7 @@ def login():
     result = db.session.execute(text(sql), {"username":username})
     user = result.fetchone()    
     if not user:
-        session["error"]="login_error"
-        return redirect("/error")
+        return error("login_error")
     else:
         hash_value = user.password
         if check_password_hash(hash_value, password):
@@ -199,8 +191,7 @@ def login():
                 session["admin"] = True
             session["username"] = username
         else:
-            session["error"]="login_error"
-            return redirect("/error")
+            return error("login_error")
     return redirect("/")
 
 
@@ -219,8 +210,7 @@ def register():
     hash_value = generate_password_hash(password)
     check_username = db.session.execute(text("SELECT username FROM users WHERE username=:username"), {"username":username}).fetchone()
     if check_username:
-        session["error"]="register_error"
-        return redirect("/error")
+        return error("register_error")
     if admin == '1':
         sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , true)"
     else:
@@ -232,40 +222,34 @@ def register():
 
 @app.route("/create", methods=["POST","GET"])
 def create():
-    topic = request.form["topic"]
-    check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
-    if check_topic:
-        session["error"]="topic_error"
-        return redirect("/error")
-    sql_topics = "INSERT INTO topics (Topic) VALUES (:topic)"
-    db.session.execute(text(sql_topics), {"topic":topic})
-    db.session.commit()
+    if session["admin"]:
+        topic = request.form["topic"]
+        check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
+        if check_topic:
+            return error("topic_error")
+        sql_topics = "INSERT INTO topics (Topic) VALUES (:topic)"
+        db.session.execute(text(sql_topics), {"topic":topic})
+        db.session.commit()
     return redirect("/")
 
 
 @app.route("/remove", methods=["POST","GET"])
 def remove():
-    topic = request.form["topic"]
-    check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
-    if not check_topic:
-        session["error"]="topic_not_found_error"
-        return redirect("/error")
-    sql_topics = "DELETE FROM topics WHERE Topic=:topic"
-    db.session.execute(text(sql_topics), {"topic":topic})
-    sql_headers = "DELETE FROM headers WHERE topic=:topic"
-    db.session.execute(text(sql_headers), {"topic":topic})
-    sql_messages = "DELETE FROM messages WHERE topic=:topic"
-    db.session.execute(text(sql_messages), {"topic":topic})
-    db.session.commit()
+    if session["admin"]:
+        topic = request.form["topic"]
+        check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
+        if not check_topic:
+            return error("topic_not_found_error")
+        sql_topics = "DELETE FROM topics WHERE Topic=:topic"
+        db.session.execute(text(sql_topics), {"topic":topic})
+        sql_headers = "DELETE FROM headers WHERE topic=:topic"
+        db.session.execute(text(sql_headers), {"topic":topic})
+        sql_messages = "DELETE FROM messages WHERE topic=:topic"
+        db.session.execute(text(sql_messages), {"topic":topic})
+        db.session.commit()
     return redirect("/")
 
 
 @app.route("/error")
-def error():
-    return render_template("error.html")
-
-
-@app.route("/return_from_error")
-def return_from_error():
-    del session["error"]
-    return redirect("/")
+def error(cause=""):    
+    return render_template("error.html", cause=cause)
