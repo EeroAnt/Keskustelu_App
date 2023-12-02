@@ -33,8 +33,7 @@ def _register():
     password = request.form["password"]
     admin = request.form["admin"]
     hash_value = generate_password_hash(password)
-    check_username = db.session.execute(text("SELECT username FROM users WHERE username=:username"), {"username":username}).fetchone()
-    if check_username:
+    if not _check_username(username):
         return error("register_error")
     if admin == '1':
         sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , true)"
@@ -43,3 +42,10 @@ def _register():
     db.session.execute(text(sql), {"username":username, "password":hash_value})
     db.session.commit()
     return redirect("/")
+
+def _check_username(username):
+    check_username = db.session.execute(text("SELECT username FROM users WHERE username=:username"), {"username":username}).fetchone()
+    if check_username:
+        return True
+    else:
+        return False
