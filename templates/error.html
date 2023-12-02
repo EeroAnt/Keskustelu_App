@@ -31,4 +31,12 @@
 <p>Käyttäjää ei löytynyt</p>
 {% endif %}
 
+{% if cause == "header_too_long" %}
+<p>Otsikko on liian pitkä</p>
+{% endif %}
+
+{% if cause == "message_too_long" %}
+<p>Viesti on liian pitkä</p>
+{% endif %}
+
 <a href="/">Palaa takaisin</a>

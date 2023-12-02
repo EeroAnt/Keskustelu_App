@@ -5,8 +5,12 @@ from sqlalchemy import text
 
 def _start_conversation(topic_id):
     header = request.form["header"]
+    if len(header) > 50:
+        return error("header_too_long")
     username = session["username"]
     message = request.form["message"]
+    if len(message) > 500:
+        return error("message_too_long")
     topic = request.form["topic"]
     check_header = db.session.execute(text(f"SELECT header FROM headers WHERE header=:header AND topic=:topic"), {"header":header,"topic":topic}).fetchone()
     if check_header:
