@@ -15,3 +15,19 @@ def _give_clearance():
         else:
             return error("no_user")
     return redirect("/")
+
+def _check_clearance_level(topic_id):
+    if session["admin"]:
+        return True
+    sql1 = "SELECT topic FROM topics WHERE id=:topic_id"
+    topic = db.session.execute(text(sql1), {"topic_id":topic_id}).fetchone()[0]
+    sql2 = "SELECT secrecy FROM topics WHERE topic=:topic"
+    secrecy = db.session.execute(text(sql2), {"topic":topic}).fetchone()[0]
+    if secrecy == None:
+        return True
+    user = session["username"]
+    sql3 = f"SELECT level FROM clearances WHERE username='{user}' AND level={secrecy}"
+    if db.session.execute(text(sql3), {"topic":topic}).fetchone() != None:
+        return True
+    return False
+        
