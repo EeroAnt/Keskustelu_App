@@ -7,6 +7,8 @@ from sqlalchemy import text
 def _search():
     search_input = request.form["search_input"]
     topics_and_headers = _get_topics_and_headers(search_input)
+    if topics_and_headers == []:
+        return error("no_search_results")
     topics_and_headers_with_urls = _get_urls(topics_and_headers)
     messages = _get_messages(search_input)
     return render_template("search_results.html", results = topics_and_headers_with_urls, messages = messages)
@@ -15,8 +17,6 @@ def _get_topics_and_headers(search_input):
     search_input = "%" + search_input + "%"
     sql = "SELECT topic, header FROM messages WHERE message LIKE :search_input GROUP BY topic, header"
     temp_topics_and_headers = db.session.execute(text(sql), {"search_input":search_input}).fetchall()
-    if temp_topics_and_headers == []:
-        return error("no_search_results")
     topics_and_headers = []
     for topic_and_header in temp_topics_and_headers:
         topics_and_headers.append(dict(topic=topic_and_header.topic,header=topic_and_header.header))
