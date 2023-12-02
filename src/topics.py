@@ -6,11 +6,16 @@ from sqlalchemy import text
 def _create():
     if session["admin"]:
         topic = request.form["topic"]
+        secrecy = request.form["secrecy"]
         check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
         if check_topic:
             return error("topic_error")
-        sql_topics = "INSERT INTO topics (Topic) VALUES (:topic)"
-        db.session.execute(text(sql_topics), {"topic":topic})
+        if secrecy == "":
+            sql_topics = "INSERT INTO topics (Topic) VALUES (:topic)"
+            db.session.execute(text(sql_topics), {"topic":topic})
+        else:
+            sql_topics = "INSERT INTO topics (Topic, Secrecy) VALUES (:topic, :secrecy)"
+            db.session.execute(text(sql_topics), {"topic":topic, "secrecy":secrecy})
         db.session.commit()
     return redirect("/")
 

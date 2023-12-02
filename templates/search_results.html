@@ -7,11 +7,14 @@
         <th>Ajankohta</th>
     </tr>
 {% for topic in results %}
+{% if topic.topic != None %}
+    <tr>
     <th>{{ topic.topic }}</th>
-    <th><a href={{topic.url}}>{{ topic.header }}</a></th>
+    <th><a href=/topic{{topic.topic_id}}/conversation{{topic.header_id}}>{{ topic.header }}</a></th>
     <th></th>
     <th></th>
     <th></th>
+    </tr>
 {% for message in messages %}
         {% if message.topic == topic.topic %}
         {% if message.header == topic.header %}
@@ -25,5 +28,6 @@
         {% endif %}
         {% endif %}
     {% endfor %}
+{% endif %}
 {% endfor %}
 

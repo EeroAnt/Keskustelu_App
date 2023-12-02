@@ -6,6 +6,7 @@ from src.delete import _remove_message, _remove_conversation
 from src.navigation import _index, _go_to_topic, _go_to_conversation
 from src.messaging import _send_message, _start_conversation
 from src.search import _search
+from src.clearance import _give_clearance
 
 @app.route("/")
 def index():
@@ -89,3 +90,7 @@ def remove():
 @app.route("/search", methods=["POST","GET"])
 def search():
     return _search()
+
+@app.route("/give_clearance", methods=["POST","GET"])
+def give_clearance():
+    return _give_clearance()

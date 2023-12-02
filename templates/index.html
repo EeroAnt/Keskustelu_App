@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 {% if session.username %}
 {% if session.admin == True %}
+
 <form action="/create" method="POST">
-<p>Keskustelualueen nimi:<br>
-<input type="text" name="topic"></p>
-<input type="submit" value="Luo keskustelu">
-<br>
-</form>
+
+  <p>Keskustelualueen nimi:</p>
+    <input type="text" name="topic"><br>
+
+  <p>Keskustelualueen salaisuus:<br>
+    <input type="number" name="secrecy"><br>
+    <input type="submit" value="Luo keskustelu">
+
+</form><br>
+
 <form action="/remove" method="POST">
-<p>Keskustelualueen nimi:<br>
-<input type="text" name="topic"></p>
-<input type="submit" value="Poista keskustelu">
-</form>
-<br>
-    
+  <p>Keskustelualueen nimi:</p>
+    <input type="text" name="topic"><br>
+    <input type="submit" value="Poista keskustelu">
+</form><br>
+
+<form action="/give_clearance" method="POST">
+  <p>Käyttäjänimi:</p>
+  <input type="text" name="user"><br>
+  <p>Turvallisuusluokitus:</p>
+  <input type="number" name="clearance_level"><br>
+  <input type="submit" value="Anna käyttäjälle turvallisuusluokitus">
+</form><br>
 {% endif %}
 
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
@@ -34,7 +46,7 @@
       </tr>
 {% for topic in topics %}
 <tr>
-<th><a href="/topic{{ topic.id }}">{{ topic.topic }}</a></th><th>{{ topic.headers }}</th><th>{{ topic.messages }}</th><th>{{ topic.latest}}</th>
+<th><a href="/topic{{ topic.id }}">{{ topic.topic }}</a></th><th>{{ topic.headers }}</th><th>{{ topic.messages }}</th><th>{{ topic.latest }}</th>
 </tr>
 {% endfor %}
 </table>
