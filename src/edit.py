@@ -1,19 +1,13 @@
-from flask import redirect, render_template, request, session
+from flask import request, session
 from src.db import db
 from src.error import error
 from sqlalchemy import text
-
-
-def _go_to_edit_header():
-    header_id = request.form["header_id"]
-    topic_id = request.form["topic_id"]
-    session["edit"] = "header"
-    sql = "SELECT * FROM headers WHERE id=:header_id"
-    header = db.session.execute(text(sql), {"header_id":int(header_id)}).fetchone()
-    return render_template("edit.html", header=header, header_id=header_id, topic_id=topic_id)
+from src.csrf import _csrf_protect
+from src.navigation import _return_from_edit
 
 
 def _edit_header():
+    _csrf_protect()
     new_header = request.form["new_header"]
     old_header = request.form["old_header"]
     header_id = request.form["header_id"]
@@ -30,17 +24,8 @@ def _edit_header():
     return _return_from_edit(request.form["topic_id"])
 
 
-def _go_to_edit_message():
-    message_id = request.form["message_id"]
-    topic_id = request.form["topic_id"]
-    header_id = request.form["header_id"]
-    session["edit"] = "message"
-    sql = "SELECT * FROM messages WHERE id=:message_id"
-    message = db.session.execute(text(sql), {"message_id":message_id}).fetchone()
-    return render_template("edit.html", message=message, message_id=message_id, topic_id=topic_id, header_id=header_id)
-
-
 def _edit_message():
+    _csrf_protect()
     message = request.form["new_message"]
     message_id = request.form["message_id"]
     message_owner = request.form["message_owner"]
@@ -53,12 +38,3 @@ def _edit_message():
         del session["edit"]
         return error("session_error")
     return _return_from_edit(topic_id = request.form["topic_id"],header_id = request.form["header_id"])
-
-
-def _return_from_edit(topic_id="", header_id=""):
-    if session["edit"] == "message":
-        del session["edit"]
-        return redirect(f"/topic{topic_id}/conversation{header_id}")
-    elif session["edit"] == "header":
-        del session["edit"]
-        return redirect(f"/topic{topic_id}")
