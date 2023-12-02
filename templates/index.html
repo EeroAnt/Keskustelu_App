@@ -19,6 +19,12 @@
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
 <br>
+<form action="/search" method="POST">
+<p>Hae keskusteluista:</p>
+<input type="text" name="search_input">
+<input type="submit" value="Hae">
+
+<br>
 <table>
     <tr>
         <th>Keskusteluealue</th>

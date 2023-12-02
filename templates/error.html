@@ -15,13 +15,16 @@
 <p>Keskustelu on jo olemassa</p>
 {% endif %}
 
-
 {% if cause == "topic_not_found_error" %}
 <p>Keskustelualue ei löytynyt</p>
 {% endif %}
 
 {% if cause == "session_error" %}
 <p>Väärä käyttäjä</p>
+{% endif %}
+
+{% if cause == "no_search_results" %}
+<p>Ei hakutuloksia</p>
 {% endif %}
 
 <a href="/">Palaa takaisin</a>

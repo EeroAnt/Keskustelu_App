@@ -5,6 +5,7 @@ from src.edit import _edit_message, _edit_header, _go_to_edit_message, _go_to_ed
 from src.delete import _remove_message, _remove_conversation
 from src.navigation import _index, _go_to_topic, _go_to_conversation
 from src.messaging import _send_message, _start_conversation
+from src.search import _search
 
 @app.route("/")
 def index():
@@ -84,3 +85,7 @@ def create():
 @app.route("/remove", methods=["POST","GET"])
 def remove():
     return _remove()
+
+@app.route("/search", methods=["POST","GET"])
+def search():
+    return _search()

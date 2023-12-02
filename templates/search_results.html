@@ -1,0 +1,29 @@
+<table>
+    <tr>
+        <th>Keskusteluealue</th>
+        <th>Ketju</th>
+        <th>Viesti</th>
+        <th>Lähettäjä</th>
+        <th>Ajankohta</th>
+    </tr>
+{% for topic in results %}
+    <th>{{ topic.topic }}</th>
+    <th><a href={{topic.url}}>{{ topic.header }}</a></th>
+    <th></th>
+    <th></th>
+    <th></th>
+{% for message in messages %}
+        {% if message.topic == topic.topic %}
+        {% if message.header == topic.header %}
+        <tr>
+            <th></th>
+            <th></th>
+            <th>{{ message.message }}</th>
+            <th>{{ message.username }}</th>
+            <th>{{ message.time }}</th>
+        </tr>
+        {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
