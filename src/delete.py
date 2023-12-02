@@ -2,9 +2,10 @@ from flask import redirect, request, session
 from src.db import db
 from src.error import error
 from sqlalchemy import text
-
+from src.csrf import _csrf_protect
 
 def _remove_message():
+    _csrf_protect()
     message_id = request.form["message_id"]
     current_user = session["username"]
     message_owner = request.form["message_owner"]
@@ -20,6 +21,7 @@ def _remove_message():
 
 
 def _remove_conversation():
+    _csrf_protect()
     header_id = request.form["header_id"]
     current_user = session["username"]
     header_owner = request.form["header_owner"]

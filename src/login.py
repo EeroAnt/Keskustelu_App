@@ -3,10 +3,12 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from src.db import db
 from src.error import error
 from sqlalchemy import text
+from secrets import token_hex
 
 def _login():
     username = request.form["username"]
     password = request.form["password"]
+    session["csrf_token"] = token_hex(16)
     sql = "SELECT id, password, admin FROM users WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username})
     user = result.fetchone()    
@@ -25,6 +27,7 @@ def _login():
 
 def _logout():
     del session["username"]
+    del session["csrf_token"]
     session["admin"]=False
     return redirect("/")
 

@@ -11,7 +11,7 @@ Muokattava viesti:
     <input type="hidden" name="message_owner" value="{{ message.username }}">
     <input type="hidden" name="topic_id" value="{{ topic_id }}">
     <input type="hidden" name="header_id" value="{{ header_id }}">
-    </form>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <a href="/topic{{ topic_id }}/conversation{{ header_id }}">Palaa takaisin</a>
 {% endif %}
@@ -27,6 +27,7 @@ Muokattava otsikko:
     <input type="hidden" name="topic_id" value="{{ topic_id }}">
     <input type="hidden" name="header_id" value="{{ header.id }}">
     <input type="hidden" name="old_header" value="{{ header.header }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
 </form>
 <a href="/topic{{ topic_id }}/conversation{{ header_id }}">Palaa takaisin</a>

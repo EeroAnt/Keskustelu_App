@@ -2,8 +2,11 @@ from flask import redirect, request, session
 from src.db import db
 from src.error import error
 from sqlalchemy import text
+from src.csrf import _csrf_protect
+
 
 def _start_conversation(topic_id):
+    _csrf_protect()
     header = request.form["header"]
     if len(header) > 50:
         return error("header_too_long")
@@ -24,6 +27,7 @@ def _start_conversation(topic_id):
 
 
 def _send_message(topic_id, header_id):
+    _csrf_protect()
     message = request.form["message"]
     topic = request.form["topic"]
     username = session["username"]

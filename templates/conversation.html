@@ -31,6 +31,7 @@
 <input type="hidden" name="message_owner" value="{{ message.username }}">
 <input type="hidden" name="topic_id" value="{{ topic_id }}">
 <input type="hidden" name="header_id" value="{{ header_id }}">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 </th>
 {% else %}
@@ -49,6 +50,7 @@ Viesti
 <input type="hidden" name="topic" value="{{ topic }}">
 <input type="hidden" name="header_id" value="{{ header_id }}">
 <input type="hidden" name="header" value="{{ header }}">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <br>
 <a href="/topic{{ topic_id }}">Takaisin</a>

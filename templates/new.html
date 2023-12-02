@@ -4,4 +4,5 @@ Viesti: <br>
 <textarea name="content" rows="3" cols="40"></textarea>
 <br>
 <input type="submit" value="Lähetä">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>

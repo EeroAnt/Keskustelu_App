@@ -1,9 +1,9 @@
 from app import app
 from src.login import _logout, _register, _login
 from src.topics import _create, _remove
-from src.edit import _edit_message, _edit_header, _go_to_edit_message, _go_to_edit_header
+from src.edit import _edit_message, _edit_header
 from src.delete import _remove_message, _remove_conversation
-from src.navigation import _index, _go_to_topic, _go_to_conversation
+from src.navigation import _index, _go_to_topic, _go_to_conversation, _go_to_edit_message, _go_to_edit_header
 from src.messaging import _send_message, _start_conversation
 from src.search import _search
 from src.clearance import _give_clearance
