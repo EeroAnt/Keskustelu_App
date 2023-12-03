@@ -3,6 +3,7 @@ from src.db import db
 from src.error import error
 from sqlalchemy import text
 from src.csrf import _csrf_protect
+from src.admin import _is_admin
 
 def _remove_message():
     _csrf_protect()
@@ -11,7 +12,7 @@ def _remove_message():
     message_owner = request.form["message_owner"]
     topic_id = request.form["topic_id"]
     header_id = request.form["header_id"]
-    if message_owner == current_user or session["admin"]:
+    if message_owner == current_user or _is_admin():
         sql = "DELETE FROM messages WHERE id=:message_id"
         db.session.execute(text(sql), {"message_id":message_id})
         db.session.commit()
@@ -28,7 +29,7 @@ def _remove_conversation():
     topic_id = request.form["topic_id"]
     header = db.session.execute(text("SELECT header FROM headers WHERE id=:header_id"), {"header_id":header_id}).fetchone()[0]
     topic = db.session.execute(text("SELECT topic FROM topics WHERE id=:topic_id"), {"topic_id":topic_id}).fetchone()[0]
-    if header_owner == current_user or session["admin"]:
+    if header_owner == current_user or _is_admin():
         sql = "DELETE FROM headers WHERE id=:header_id"
         db.session.execute(text(sql), {"header_id":int(header_id)})
         sql = "DELETE FROM messages WHERE header=:header and topic=:topic"

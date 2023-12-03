@@ -2,9 +2,10 @@ from flask import redirect, request, session
 from src.db import db
 from src.error import error
 from sqlalchemy import text
+from src.admin import _is_admin
 
 def _create():
-    if session["admin"]:
+    if _is_admin():
         topic = request.form["topic"]
         secrecy = request.form["secrecy"]
         check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
@@ -20,7 +21,7 @@ def _create():
     return redirect("/")
 
 def _remove():
-    if session["admin"]:
+    if _is_admin():
         topic = request.form["topic"]
         check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
         if not check_topic:

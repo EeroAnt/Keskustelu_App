@@ -3,9 +3,10 @@ from src.db import db
 from sqlalchemy import text
 from src.error import error
 from src.login import _check_username
+from src.admin import _is_admin
 
 def _give_clearance():
-    if session["admin"]:
+    if _is_admin():
         user = request.form["user"]
         clearance_level = request.form["clearance_level"]
         if _check_username(user):
@@ -17,7 +18,7 @@ def _give_clearance():
     return redirect("/")
 
 def _check_clearance_level(topic_id):
-    if session["admin"]:
+    if _is_admin():
         return True
     sql1 = "SELECT topic FROM topics WHERE id=:topic_id"
     topic = db.session.execute(text(sql1), {"topic_id":topic_id}).fetchone()[0]

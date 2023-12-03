@@ -4,6 +4,8 @@ from src.db import db
 from src.error import error
 from sqlalchemy import text
 from secrets import token_hex
+from src.admin import _is_admin
+
 
 def _login():
     username = request.form["username"]
@@ -28,7 +30,8 @@ def _login():
 def _logout():
     del session["username"]
     del session["csrf_token"]
-    session["admin"]=False
+    if _is_admin():
+        del session["admin"]
     return redirect("/")
 
 def _register():

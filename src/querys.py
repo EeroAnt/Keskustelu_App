@@ -2,12 +2,15 @@ from src.db import db
 from sqlalchemy import text
 from src.time_formatter import format_timestamp
 from flask import session
+from src.admin import _is_admin
+
 
 def _listing_for_index():
     return _topics_with_headers() + _topics_without_headers()
 
+
 def _check_clearances():
-    if session["admin"]:
+    if _is_admin():
         return "SELECT * FROM topics"
     else:
         try:
@@ -20,6 +23,7 @@ def _check_clearances():
                 return sql2
         except:
             return "SELECT * FROM topics WHERE Secrecy IS NULL"
+
 
 def _topics_with_headers():
     clearance_check = _check_clearances()
@@ -36,6 +40,7 @@ def _topics_with_headers():
             topics.append(dict(id=topic.id,topic=topic.topic, headers=topic.headers, messages=0, latest=""))
     return topics
 
+
 def _topics_without_headers():
     topics = []
     clearance_check = _check_clearances()
@@ -45,9 +50,9 @@ def _topics_without_headers():
         topics.append(dict(id=topic.id,topic=topic.topic, headers=0, messages=0, latest=""))
     return topics
 
+
 def _get_topics_headers_and_ids(input):
     clearance_check = _check_clearances()
-
     first_sql = f"SELECT topic, header FROM messages WHERE message LIKE '%{input}%' GROUP BY topic, header"
     checked_sql = f"SELECT unchecked.topic, unchecked.header FROM ({first_sql}) AS unchecked, ({clearance_check}) AS topics WHERE unchecked.topic=topics.topic"
     second_sql = f"SELECT topics_and_headers.topic, topics_and_headers.header, topics.id FROM topics LEFT JOIN ({checked_sql}) AS topics_and_headers ON topics_and_headers.topic=topics.topic"
