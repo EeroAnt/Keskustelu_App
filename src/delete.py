@@ -3,7 +3,7 @@ from src.db import db
 from src.error import error
 from sqlalchemy import text
 from src.csrf import _csrf_protect
-from src.admin import _is_admin
+from src.user_status import _is_admin
 
 def _remove_message():
     _csrf_protect()

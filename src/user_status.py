@@ -6,3 +6,10 @@ def _is_admin():
             return True
     except:
         return False
+    
+def _is_logged_in():
+    try:
+        if session["username"]:
+            return True
+    except:
+        return False

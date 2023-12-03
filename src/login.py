@@ -4,7 +4,7 @@ from src.db import db
 from src.error import error
 from sqlalchemy import text
 from secrets import token_hex
-from src.admin import _is_admin
+from src.user_status import _is_admin
 
 
 def _login():

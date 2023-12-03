@@ -2,7 +2,7 @@ from flask import redirect, request, session
 from src.db import db
 from src.error import error
 from sqlalchemy import text
-from src.admin import _is_admin
+from src.user_status import _is_admin
 
 def _create():
     if _is_admin():

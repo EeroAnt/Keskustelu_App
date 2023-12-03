@@ -2,7 +2,7 @@ from src.db import db
 from sqlalchemy import text
 from src.time_formatter import format_timestamp
 from flask import session
-from src.admin import _is_admin
+from src.user_status import _is_admin
 
 
 def _listing_for_index():
