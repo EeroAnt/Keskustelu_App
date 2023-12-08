@@ -39,7 +39,7 @@ def register_func():
 	password = request.form["password"]
 	admin = request.form["admin"]
 	hash_value = generate_password_hash(password)
-	if not check_username(username):
+	if check_username(username):
 		return error("register_error")
 	if admin == '1':
 		sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , true)"
