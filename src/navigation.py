@@ -1,17 +1,17 @@
-from flask import render_template, abort, request, session
+from flask import render_template, abort, redirect, request, session
 from src.db import db
 from sqlalchemy import text
 from src.querys import _listing_for_index
 from src.time_formatter import format_timestamp
-from src.clearance import _check_clearance_level
+from src.clearance import check_clearance_level
 
 
-def _index():
+def index():
 	return render_template("index.html", topics=_listing_for_index())
 
 
-def _go_to_topic(topic_id):
-	if _check_clearance_level(topic_id):
+def to_topic(topic_id):
+	if check_clearance_level(topic_id):
 		sql = "SELECT topic FROM topics WHERE id=:topic_id"
 		result = db.session.execute(text(sql), {"topic_id":topic_id})
 		topic = result.fetchone()[0]
@@ -23,8 +23,8 @@ def _go_to_topic(topic_id):
 		abort(404)
 
 
-def _go_to_conversation(topic_id, header_id):
-	if _check_clearance_level(topic_id):
+def to_conversation(topic_id, header_id):
+	if check_clearance_level(topic_id):
 		topic = db.session.execute(text("SELECT topic FROM topics WHERE id=:topic_id"), {"topic_id":topic_id}).fetchone()[0]
 		header = db.session.execute(text("SELECT header FROM headers WHERE id=:header_id"), {"header_id":header_id}).fetchone()[0]
 		sql = "SELECT * FROM messages WHERE topic=:topic AND header=:header"
@@ -38,7 +38,7 @@ def _go_to_conversation(topic_id, header_id):
 		abort(404)
 
 
-def _go_to_edit_message():
+def to_edit_message():
 	message_id = request.form["message_id"]
 	topic_id = request.form["topic_id"]
 	header_id = request.form["header_id"]
@@ -48,7 +48,7 @@ def _go_to_edit_message():
 	return render_template("edit.html", message=message, message_id=message_id, topic_id=topic_id, header_id=header_id)
 
 
-def _go_to_edit_header():
+def to_edit_header():
 	header_id = request.form["header_id"]
 	topic_id = request.form["topic_id"]
 	session["edit"] = "header"
@@ -57,7 +57,7 @@ def _go_to_edit_header():
 	return render_template("edit.html", header=header, header_id=header_id, topic_id=topic_id)
 
 
-def _return_from_edit(topic_id="", header_id=""):
+def return_from_edit(topic_id="", header_id=""):
 	if session["edit"] == "message":
 		del session["edit"]
 		return redirect(f"/topic{topic_id}/conversation{header_id}")

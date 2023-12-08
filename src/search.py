@@ -1,13 +1,13 @@
 from flask import render_template, request
 from src.db import db
-from src.querys import _get_topics_headers_and_ids
+from src.querys import get_topics_headers_and_ids
 from src.error import error
 from src.time_formatter import format_timestamp
 from sqlalchemy import text
 
-def _search():
+def search():
 	search_input = request.form["search_input"]
-	topics_and_headers = _get_topics_headers_and_ids(search_input)
+	topics_and_headers = get_topics_headers_and_ids(search_input)
 	if topics_and_headers == []:
 		return error("no_search_results")
 	messages = _get_messages(search_input)

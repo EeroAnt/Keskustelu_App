@@ -4,10 +4,10 @@ from src.db import db
 from src.error import error
 from sqlalchemy import text
 from secrets import token_hex
-from src.user_status import _is_admin
+from src.user_status import is_admin
 
 
-def _login():
+def login():
 	username = request.form["username"]
 	password = request.form["password"]
 	session["csrf_token"] = token_hex(16)
@@ -27,19 +27,19 @@ def _login():
 	return redirect("/")
 
 
-def _logout():
+def logout():
 	del session["username"]
 	del session["csrf_token"]
-	if _is_admin():
+	if is_admin():
 		del session["admin"]
 	return redirect("/")
 
-def _register():
+def register():
 	username = request.form["username"]
 	password = request.form["password"]
 	admin = request.form["admin"]
 	hash_value = generate_password_hash(password)
-	if not _check_username(username):
+	if not check_username(username):
 		return error("register_error")
 	if admin == '1':
 		sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , true)"
@@ -49,7 +49,7 @@ def _register():
 	db.session.commit()
 	return redirect("/")
 
-def _check_username(username):
+def check_username(username):
 	check_username = db.session.execute(text("SELECT username FROM users WHERE username=:username"), {"username":username}).fetchone()
 	if check_username:
 		return True

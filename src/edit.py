@@ -2,12 +2,12 @@ from flask import request, session
 from src.db import db
 from src.error import error
 from sqlalchemy import text
-from src.csrf import _csrf_protect
-from src.navigation import _return_from_edit
+from src.csrf import csrf_protect
+from src.navigation import return_from_edit
 
 
-def _edit_header():
-	_csrf_protect()
+def edit_header():
+	csrf_protect()
 	new_header = request.form["new_header"]
 	old_header = request.form["old_header"]
 	header_id = request.form["header_id"]
@@ -21,11 +21,11 @@ def _edit_header():
 		db.session.commit()
 	else:
 		return error("session_error")
-	return _return_from_edit(request.form["topic_id"])
+	return return_from_edit(request.form["topic_id"])
 
 
-def _edit_message():
-	_csrf_protect()
+def edit_message():
+	csrf_protect()
 	message = request.form["new_message"]
 	message_id = request.form["message_id"]
 	message_owner = request.form["message_owner"]
@@ -37,4 +37,4 @@ def _edit_message():
 	else:
 		del session["edit"]
 		return error("session_error")
-	return _return_from_edit(topic_id = request.form["topic_id"],header_id = request.form["header_id"])
+	return return_from_edit(topic_id = request.form["topic_id"],header_id = request.form["header_id"])

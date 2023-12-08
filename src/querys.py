@@ -2,7 +2,7 @@ from src.db import db
 from sqlalchemy import text
 from src.time_formatter import format_timestamp
 from flask import session
-from src.user_status import _is_admin
+from src.user_status import is_admin
 
 
 def _listing_for_index():
@@ -10,7 +10,7 @@ def _listing_for_index():
 
 
 def _check_clearances():
-	if _is_admin():
+	if is_admin():
 		return "SELECT * FROM topics"
 	else:
 		try:
@@ -51,7 +51,7 @@ def _topics_without_headers():
 	return topics
 
 
-def _get_topics_headers_and_ids(input):
+def get_topics_headers_and_ids(input):
 	clearance_check = _check_clearances()
 	first_sql = f"SELECT topic, header FROM messages WHERE message LIKE '%{input}%' GROUP BY topic, header"
 	checked_sql = f"SELECT unchecked.topic, unchecked.header FROM ({first_sql}) AS unchecked, ({clearance_check}) AS topics WHERE unchecked.topic=topics.topic"
