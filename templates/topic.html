@@ -3,19 +3,19 @@
 <br>
 <hr>
 {% for conversation in conversations %}
-<a href="/topic{{ topic_id }}/conversation{{conversation.id}}">{{ conversation.header }}</a>
+<a href="/topic{{ conversation.t_id }}/conversation{{conversation.h_id}}">{{ conversation.header }}</a>
 {% if session.username == conversation.username %}
 <form action="/go_to_edit_header" method="POST">
     <input type="submit" value="Muokkaa otsikkoa">
     <input type="hidden" name="header_owner" value="{{ conversation.username }}">
-    <input type="hidden" name="topic_id" value="{{ topic_id }}">
-    <input type="hidden" name="header_id" value="{{ conversation.id }}">
+    <input type="hidden" name="topic_id" value="{{ conversation.t_id }}">
+    <input type="hidden" name="header_id" value="{{ conversation.h_id }}">
     </form>
 <form action="/remove_conversation" method="POST">
 <input type="submit" value="Poista keskustelu">
 <input type="hidden" name="header_owner" value="{{ conversation.username }}">
-<input type="hidden" name="topic_id" value="{{ topic_id }}">
-<input type="hidden" name="header_id" value="{{ conversation.id }}">
+<input type="hidden" name="topic_id" value="{{ conversation.t_id }}">
+<input type="hidden" name="header_id" value="{{ conversation.h_id }}">
 </form>
 {% endif %}
 <hr>
@@ -28,7 +28,7 @@ Avausviesti
     <input type="text" name="message">
 <input type="submit" value="Avaa keskustelu">
 <input type="hidden" name="topic_id" value="{{ topic_id }}">
-<input type="hidden" name="topic" value="{{ topic }}">
+<input type="hidden" name="topic" value="{{ topic_id }}">
 </form>
 <br>
 <a href="/">Takaisin</a>

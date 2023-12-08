@@ -1,24 +1,19 @@
 from flask import render_template, abort, redirect, request, session
 from src.db import db
 from sqlalchemy import text
-from src.querys import _listing_for_index
+from src.querys import listing_for_index, get_headers_for_topic
 from src.time_formatter import format_timestamp
 from src.clearance import check_clearance_level
 
 
 def to_index():
-	return render_template("index.html", topics=_listing_for_index())
+	return render_template("index.html", topics=listing_for_index())
 
 
 def to_topic(topic_id):
 	if check_clearance_level(topic_id):
-		sql = "SELECT topic FROM topics WHERE id=:topic_id"
-		result = db.session.execute(text(sql), {"topic_id":topic_id})
-		topic = result.fetchone()[0]
-		sql = f"SELECT * FROM headers WHERE topic=:topic"
-		result = db.session.execute(text(sql), {"topic":topic})
-		conversations = result.fetchall()
-		return render_template("topic.html", topic=topic, conversations=conversations, topic_id=topic_id)
+		result = get_headers_for_topic(topic_id)
+		return render_template("topic.html", conversations=result, topic_id=topic_id)
 	else:
 		abort(404)
 

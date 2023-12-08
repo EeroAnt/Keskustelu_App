@@ -5,7 +5,7 @@ from flask import session
 from src.user_status import is_admin
 
 
-def _listing_for_index():
+def listing_for_index():
     return _topics_with_headers() + _topics_without_headers()
 
 
@@ -58,3 +58,7 @@ def get_topics_headers_and_ids(input):
 	second_sql = f"SELECT topics_and_headers.topic, topics_and_headers.header, topics.id FROM topics LEFT JOIN ({checked_sql}) AS topics_and_headers ON topics_and_headers.topic=topics.topic"
 	sql = f"SELECT topic_id_added.topic, topic_id_added.header, topic_id_added.id AS topic_id, headers.id as header_id FROM headers LEFT JOIN ({second_sql}) AS topic_id_added ON topic_id_added.header=headers.header;"
 	return db.session.execute(text(sql)).fetchall()
+
+def get_headers_for_topic(topic_id):
+	sql = "SELECT topics.topic, topics.id AS t_id, header, headers.id AS h_id, username FROM topics LEFT JOIN headers ON topics.topic=headers.topic WHERE header IS NOT NULL AND topics.id=:topic_id;"
+	return db.session.execute(text(sql), {"topic_id":topic_id}).fetchall()
