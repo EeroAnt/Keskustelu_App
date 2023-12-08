@@ -6,7 +6,7 @@ from src.time_formatter import format_timestamp
 from src.clearance import check_clearance_level
 
 
-def index():
+def to_index():
 	return render_template("index.html", topics=_listing_for_index())
 
 

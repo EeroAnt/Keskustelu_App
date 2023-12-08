@@ -5,7 +5,7 @@ from src.error import error
 from src.time_formatter import format_timestamp
 from sqlalchemy import text
 
-def search():
+def search_func():
 	search_input = request.form["search_input"]
 	topics_and_headers = get_topics_headers_and_ids(search_input)
 	if topics_and_headers == []:

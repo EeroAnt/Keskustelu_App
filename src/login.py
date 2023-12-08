@@ -7,7 +7,7 @@ from secrets import token_hex
 from src.user_status import is_admin
 
 
-def login():
+def login_func():
 	username = request.form["username"]
 	password = request.form["password"]
 	session["csrf_token"] = token_hex(16)
@@ -27,14 +27,14 @@ def login():
 	return redirect("/")
 
 
-def logout():
+def logout_func():
 	del session["username"]
 	del session["csrf_token"]
 	if is_admin():
 		del session["admin"]
 	return redirect("/")
 
-def register():
+def register_func():
 	username = request.form["username"]
 	password = request.form["password"]
 	admin = request.form["admin"]

@@ -4,7 +4,7 @@ from src.error import error
 from sqlalchemy import text
 from src.user_status import is_admin
 
-def create():
+def create_func():
 	if is_admin():
 		topic = request.form["topic"]
 		secrecy = request.form["secrecy"]
@@ -20,7 +20,7 @@ def create():
 		db.session.commit()
 	return redirect("/")
 
-def remove():
+def remove_func():
 	if is_admin():
 		topic = request.form["topic"]
 		check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()

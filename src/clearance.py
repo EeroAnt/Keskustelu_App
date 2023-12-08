@@ -5,7 +5,7 @@ from src.error import error
 from src.login import check_username
 from src.user_status import is_admin, is_logged_in
 
-def give_clearance():
+def give_clearance_func():
 	if is_admin():
 		user = request.form["user"]
 		clearance_level = request.form["clearance_level"]

@@ -6,7 +6,7 @@ from src.csrf import csrf_protect
 from src.navigation import return_from_edit
 
 
-def edit_header():
+def edit_header_func():
 	csrf_protect()
 	new_header = request.form["new_header"]
 	old_header = request.form["old_header"]
@@ -24,7 +24,7 @@ def edit_header():
 	return return_from_edit(request.form["topic_id"])
 
 
-def edit_message():
+def edit_message_func():
 	csrf_protect()
 	message = request.form["new_message"]
 	message_id = request.form["message_id"]

@@ -5,7 +5,7 @@ from sqlalchemy import text
 from src.csrf import csrf_protect
 from src.user_status import is_admin
 
-def remove_message():
+def remove_message_func():
 	csrf_protect()
 	message_id = request.form["message_id"]
 	current_user = session["username"]
@@ -21,7 +21,7 @@ def remove_message():
 	return redirect(f"/topic{topic_id}/conversation{header_id}")
 
 
-def remove_conversation():
+def remove_conversation_func():
 	csrf_protect()
 	header_id = request.form["header_id"]
 	current_user = session["username"]

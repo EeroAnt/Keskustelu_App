@@ -5,7 +5,7 @@ from sqlalchemy import text
 from src.csrf import csrf_protect
 
 
-def start_conversation(topic_id):
+def start_conversation_func(topic_id):
 	csrf_protect()
 	header = request.form["header"]
 	if len(header) > 50:
@@ -26,7 +26,7 @@ def start_conversation(topic_id):
 	return redirect(f"/topic{topic_id}")
 
 
-def send_message(topic_id, header_id):
+def send_message_func(topic_id, header_id):
 	csrf_protect()
 	message = request.form["message"]
 	topic = request.form["topic"]
