@@ -62,3 +62,24 @@ def get_topics_headers_and_ids(input):
 def get_headers_for_topic(topic_id):
 	sql = "SELECT topics.topic, topics.id AS t_id, header, headers.id AS h_id, username FROM topics LEFT JOIN headers ON topics.topic=headers.topic WHERE header IS NOT NULL AND topics.id=:topic_id;"
 	return db.session.execute(text(sql), {"topic_id":topic_id}).fetchall()
+
+def get_messages(topic_id, header_id):
+	topic = db.session.execute(text("SELECT topic FROM topics WHERE id=:topic_id"), {"topic_id":topic_id}).fetchone()[0]
+	header = db.session.execute(text("SELECT header FROM headers WHERE id=:header_id"), {"header_id":header_id}).fetchone()[0]
+	sql = "SELECT * FROM messages WHERE topic=:topic AND header=:header"
+	result = db.session.execute(text(sql), {"topic":topic, "header":header})
+	temp_messages = result.fetchall()
+	messages = []
+	for message in temp_messages:
+		messages.append(dict(id=message.id, username=message.username, message=message.message, time=format_timestamp(message.time)))
+	return messages, topic, header
+
+def get_message(message_id):
+	sql = "SELECT message FROM messages WHERE id=:message_id"
+	message = db.session.execute(text(sql), {"message_id":message_id}).fetchone()[0]
+	return message
+
+def get_header(header_id):
+	sql = "SELECT * FROM headers WHERE id=:header_id"
+	header = db.session.execute(text(sql), {"header_id":header_id}).fetchone()
+	return header
