@@ -68,7 +68,7 @@ def get_messages(topic_id, header_id):
 	result = db.session.execute(text(sql), {"topic_id":topic_id, "header_id":header_id})
 	temp_messages = result.fetchall()
 	topic = get_topic(topic_id)
-	header = get_header(header_id)[1]
+	header = get_header(header_id)
 	messages = []
 	for message in temp_messages:
 		messages.append(dict(id=message.id, username=message.username, message=message.message, time=format_timestamp(message.time)))
