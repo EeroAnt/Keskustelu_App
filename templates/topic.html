@@ -48,6 +48,7 @@
 							<input type="hidden" name="header_owner" value="{{ conversation.username }}">
 							<input type="hidden" name="topic_id" value="{{ conversation.t_id }}">
 							<input type="hidden" name="header_id" value="{{ conversation.h_id }}">
+							<input type="hidden" name="topic" value="{{ topic }}">
 						</div>
 					</form>
 					<form action="/remove_conversation" method="POST" class="button-form">

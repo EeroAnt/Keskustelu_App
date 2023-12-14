@@ -37,11 +37,9 @@ def to_edit_message():
 
 
 def to_edit_header():
-	header_id = request.form["header_id"]
-	topic_id = request.form["topic_id"]
 	session["edit"] = "header"
-	header = get_header(header_id)
-	return render_template("edit.html", header=header, header_id=header_id, topic_id=topic_id)
+	header = get_header(request.form["header_id"])
+	return render_template("edit.html", header=header, header_id=request.form["header_id"], topic_id=request.form["topic_id"], topic=request.form["topic"])
 
 
 def return_from_edit(topic_id="", header_id=""):
