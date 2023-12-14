@@ -1,55 +1,86 @@
 <!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<title>Keskustelu-App</title>
+
 {% if session.username %}
-{% if session.admin %}
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h1>Keskustelu-App</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-8">
+			<p>Olet kirjautunut nimellä {{ session.username }}</p>
+		</div>
+		<div class="col-4">
+			<a href="/logout">Kirjaudu ulos</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-8">			
+		<table>
+			<tr>
+				<th>Keskusteluealue</th>
+				<th>Ketjujen määrä</th>
+				<th>Viestien määrä</th>
+				<th>Viimeisen viestin ajankohta</th>
+			</tr>
+		{% for topic in topics %}
+		<tr>
+		<th><a href="/topic{{ topic.id }}">{{ topic.topic }}</a></th><th>{{ topic.headers }}</th><th>{{ topic.messages }}</th><th>{{ topic.latest }}</th>
+		</tr>
+		{% endfor %}
+		</table>
+		</div>
+		<div class="col-4">
+			{% if session.admin %}
 
-<form action="/create" method="POST">
+				<form action="/create" method="POST">
+					<div class="form-group col-6">
+						<label for="topic">Keskustelualueen nimi:</label>
+						<input type="text" name="topic"><br>
+						<label for="secrey">Keskustelualueen salaisuus:</label>
+						<input type="number" name="secrecy"><br>
+						<button type="submit" class="btn btn-primary">Luo keskustelualue</button>
+					</div>
+				</form><br>
 
-  <p>Keskustelualueen nimi:</p>
-    <input type="text" name="topic"><br>
+				<form action="/remove" method="POST">
+					<div class="form-group col-6">
+						<label for="topic">Keskustelualueen nimi:</label>
+						<input type="text" name="topic"><br>
+						<button type="submit" class="btn btn-primary">Poista keskustelualue</button>
+					</div>
+				</form><br>
 
-  <p>Keskustelualueen salaisuus:<br>
-    <input type="number" name="secrecy"><br>
-    <input type="submit" value="Luo keskustelu">
+				<form action="/give_clearance" method="POST">
+				<div class="form-group col-6">
+					<label for="user">Käyttäjänimi:</label>
+					<input type="text" name="user"><br>
+					<label for="clearance_level">Turvallisuusluokitus:</label>
+					<input type="number" name="clearance_level"><br>
+					<button type="submit" class="btn btn-primary">Anna käyttäjälle turvallisuusluokitus</button>
+				</form><br>
+				{% endif %}
+		</div>
+	</div>
+			
 
-</form><br>
-
-<form action="/remove" method="POST">
-  <p>Keskustelualueen nimi:</p>
-    <input type="text" name="topic"><br>
-    <input type="submit" value="Poista keskustelu">
-</form><br>
-
-<form action="/give_clearance" method="POST">
-  <p>Käyttäjänimi:</p>
-  <input type="text" name="user"><br>
-  <p>Turvallisuusluokitus:</p>
-  <input type="number" name="clearance_level"><br>
-  <input type="submit" value="Anna käyttäjälle turvallisuusluokitus">
-</form><br>
-{% endif %}
-
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
+	<div class="row">
+		<form action="/search" method="POST">
+		<div class="form-group col-12">
+			<label for="search_input">Hae keskusteluista:</label>
+			<input type="text" name="search_input">
+			<button type="submit" class="btn btn-primary">Hae</button>
+		</div>
+		</form>
+	</div>
 <br>
-<form action="/search" method="POST">
-<p>Hae keskusteluista:</p>
-<input type="text" name="search_input">
-<input type="submit" value="Hae">
 
-<br>
-<table>
-    <tr>
-        <th>Keskusteluealue</th>
-        <th>Ketjujen määrä</th>
-        <th>Viestien määrä</th>
-        <th>Viimeisen viestin ajankohta</th>
-      </tr>
-{% for topic in topics %}
-<tr>
-<th><a href="/topic{{ topic.id }}">{{ topic.topic }}</a></th><th>{{ topic.headers }}</th><th>{{ topic.messages }}</th><th>{{ topic.latest }}</th>
-</tr>
-{% endfor %}
-</table>
+
 
 {% else %}
 <form action="/login" method="POST">
