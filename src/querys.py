@@ -88,3 +88,8 @@ def get_topic(topic_id):
 	sql = "SELECT topic FROM topics WHERE id=:topic_id"
 	topic = db.session.execute(text(sql), {"topic_id":topic_id}).fetchone()[0]
 	return topic
+
+def get_message_owner(message_id):
+	sql = "SELECT username FROM messages WHERE id=:message_id"
+	message_owner = db.session.execute(text(sql), {"message_id":message_id}).fetchone()[0]
+	return message_owner

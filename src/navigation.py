@@ -1,8 +1,5 @@
 from flask import render_template, abort, redirect, request, session
-from src.db import db
-from sqlalchemy import text
-from src.querys import listing_for_index, get_headers_for_topic, get_messages, get_message, get_header, get_topic
-from src.time_formatter import format_timestamp
+from src.querys import listing_for_index, get_headers_for_topic, get_messages, get_message, get_header, get_topic, get_message_owner
 from src.clearance import check_clearance_level
 
 
@@ -28,12 +25,17 @@ def to_conversation(topic_id, header_id):
 
 
 def to_edit_message():
-	message_id = request.form["message_id"]
-	topic_id = request.form["topic_id"]
-	header_id = request.form["header_id"]
 	session["edit"] = "message"
-	message = get_message(message_id)
-	return render_template("edit.html", message=message, message_id=message_id, topic_id=topic_id, header_id=header_id)
+	message = get_message(request.form["message_id"])
+	message_owner = get_message_owner(request.form["message_id"])
+	header_id,header,topic,user = get_header(request.form["header_id"])
+	return render_template("edit.html",
+						message=message,
+						message_owner=message_owner,
+						message_id=request.form["message_id"],
+						topic_id=request.form["topic_id"],
+						topic=topic, header_id=header_id,
+						header = header)
 
 
 def to_edit_header():
