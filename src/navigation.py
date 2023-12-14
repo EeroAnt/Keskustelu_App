@@ -28,13 +28,15 @@ def to_edit_message():
 	session["edit"] = "message"
 	message = get_message(request.form["message_id"])
 	message_owner = get_message_owner(request.form["message_id"])
-	header_id,header,topic,user = get_header(request.form["header_id"])
+	header= get_header(request.form["header_id"])
+	topic = get_topic(request.form["topic_id"])
 	return render_template("edit.html",
 						message=message,
 						message_owner=message_owner,
 						message_id=request.form["message_id"],
 						topic_id=request.form["topic_id"],
-						topic=topic, header_id=header_id,
+						topic=topic, 
+						header_id=request.form["header_id"],
 						header = header)
 
 
