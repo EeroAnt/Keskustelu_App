@@ -64,11 +64,11 @@ def get_headers_for_topic(topic_id):
 	return db.session.execute(text(sql), {"topic_id":topic_id}).fetchall()
 
 def get_messages(topic_id, header_id):
-	topic = db.session.execute(text("SELECT topic FROM topics WHERE id=:topic_id"), {"topic_id":topic_id}).fetchone()[0]
-	header = db.session.execute(text("SELECT header FROM headers WHERE id=:header_id"), {"header_id":header_id}).fetchone()[0]
-	sql = "SELECT * FROM messages WHERE topic=:topic AND header=:header"
-	result = db.session.execute(text(sql), {"topic":topic, "header":header})
+	sql = "SELECT messages.id, messages.username, messages.message, messages.time, headers.header, topics.topic FROM messages LEFT JOIN topics on topics.topic=messages.topic LEFT JOIN headers on messages.header=headers.header WHERE topics.id=:topic_id AND headers.id=:header_id ORDER BY time;"
+	result = db.session.execute(text(sql), {"topic_id":topic_id, "header_id":header_id})
 	temp_messages = result.fetchall()
+	topic = get_topic(topic_id)
+	header = get_header(header_id)[1]
 	messages = []
 	for message in temp_messages:
 		messages.append(dict(id=message.id, username=message.username, message=message.message, time=format_timestamp(message.time)))
