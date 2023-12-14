@@ -1,6 +1,8 @@
 # Tietokannat-ja-web-ohjelmointi-harjoitustyo
 
-## Välipalautus 2
+## Loppupalautus
+
+### Käyttöönotto:
 
 Repositoirion juurihakemistossa tulee ajaa komennot
  - 'python3 -m venv venv'
@@ -10,14 +12,11 @@ Repositoirion juurihakemistossa tulee ajaa komennot
 
 'run flask' pitäisi ohjelman lähteä käyntiin, jonka jälkeen voi localhostissa ajaa ohjelmaa paikallisesti
 
-Tällä hetkellä sovellus on ruma, mutta perustoiminnaillisuuden rankaa on. 
- - admin voi luoda keskustelualueita
- - käyttäjä voi avata keskustelun keskustelualueelle
- - käyttäjä voi muokata avaamansa keskustelun otsikon tai poistaa keskustelun kokonaan
- - käyttäjä voi lisätä viestin keskusteluun
- - käyttäjä voi muokata tai poistaa omia viestejään
+### Ohjelman tila:
 
-## Aihe/vaatimusmäärittely
+Ohjelma täyttää vaatimusmäärittelyn
+
+### Aihe/vaatimusmäärittely
 
 Valitsisin aiheekseni keskustelusovelluksen. Esimerkkiaiheen mukaisesti toiminnoiksi tuotan seuraavat:
  - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
