@@ -15,7 +15,7 @@ def login_func():
 	result = db.session.execute(text(sql), {"username":username})
 	user = result.fetchone()
 	if not user:
-		return error("login_error")
+		return error("Käyttäjää ei ole olemassa")
 	else:
 		hash_value = user.password
 		if check_password_hash(hash_value, password):
@@ -23,7 +23,7 @@ def login_func():
 				session["admin"] = True
 			session["username"] = username
 		else:
-			return error("login_error")
+			return error("Käyttäjänimi ja salasana eivät täsmää")
 	return redirect("/")
 
 
@@ -40,7 +40,7 @@ def register_func():
 	admin = request.form["admin"]
 	hash_value = generate_password_hash(password)
 	if check_username(username):
-		return error("register_error")
+		return error("Käyttäjänimi ei ole käytettävissä")
 	if admin == '1':
 		sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password , true)"
 	else:

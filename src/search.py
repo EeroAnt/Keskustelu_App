@@ -9,7 +9,7 @@ def search_func():
 	search_input = request.form["search_input"]
 	topics_and_headers = get_topics_headers_and_ids(search_input)
 	if topics_and_headers == []:
-		return error("no_search_results")
+		return error("Hakusanalla ei löytynyt tuloksia")
 	messages = _get_messages(search_input)
 	return render_template("search_results.html", results = topics_and_headers, messages = messages)
 

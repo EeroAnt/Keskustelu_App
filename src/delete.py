@@ -17,7 +17,7 @@ def remove_message_func():
 		db.session.execute(text(sql), {"message_id":message_id})
 		db.session.commit()
 	else:
-		return error("session_error")
+		return error("Sinulla ei ole oikeuksia poistaa tätä viestiä")
 	return redirect(f"/topic{topic_id}/conversation{header_id}")
 
 
@@ -36,5 +36,5 @@ def remove_conversation_func():
 		db.session.execute(text(sql), {"header":header, "topic":topic})
 		db.session.commit()
 	else:
-		return error("session_error")
+		return error("Sinulla ei ole oikeuksia poistaa tätä keskustelua")
 	return redirect(f"/topic{topic_id}")

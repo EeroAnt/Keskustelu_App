@@ -9,15 +9,15 @@ def start_conversation_func(topic_id):
 	csrf_protect()
 	header = request.form["header"]
 	if len(header) > 50:
-		return error("header_too_long")
+		return error("Liian pitkä otsikko")
 	username = session["username"]
 	message = request.form["message"]
 	if len(message) > 500:
-		return error("message_too_long")
+		return error("Liian pitkä viesti")
 	topic = request.form["topic"]
 	check_header = db.session.execute(text(f"SELECT header FROM headers WHERE header=:header AND topic=:topic"), {"header":header,"topic":topic}).fetchone()
 	if check_header:
-		return error("header_error")
+		return error("Saman niminen keskustelu on jo olemassa samalla aihealueella")
 	sql = f"INSERT INTO headers (username, header, topic) VALUES (:username, :header, :topic)"
 	db.session.execute(text(sql), {"username":username, "header":header, "topic":topic})
 	sql = f"INSERT INTO messages (username, message, time, header, topic) VALUES (:username, :message, NOW(), :header, :topic)"

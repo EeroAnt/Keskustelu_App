@@ -3,5 +3,5 @@ from app import app
 
 
 @app.route("/error")
-def error(cause=""):
-	return render_template("error.html", cause=cause)
+def error(message=""):
+	return render_template("error.html", message=message)

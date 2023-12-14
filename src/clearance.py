@@ -14,7 +14,7 @@ def give_clearance_func():
 			db.session.execute(text(sql), {"user":user, "clearance_level":clearance_level})
 			db.session.commit()
 		else:
-			return error("no_user")
+			return error("Kyseistä käyttäjää ei ole olemassa")
 	return redirect("/")
 
 def check_clearance_level(topic_id):

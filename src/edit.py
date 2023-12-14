@@ -20,7 +20,7 @@ def edit_header_func():
 		db.session.execute(text(sql), {"header":new_header, "old_header":old_header})
 		db.session.commit()
 	else:
-		return error("session_error")
+		return error("Sinulle ei ole oikeuksia muokata tätä otsikkoa")
 	return return_from_edit(request.form["topic_id"])
 
 
@@ -36,5 +36,5 @@ def edit_message_func():
 		db.session.commit()
 	else:
 		del session["edit"]
-		return error("session_error")
+		return error("Sinulla ei ole oikeuksia muokata tätä viestiä")
 	return return_from_edit(topic_id = request.form["topic_id"],header_id = request.form["header_id"])

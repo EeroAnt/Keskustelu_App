@@ -10,7 +10,7 @@ def create_func():
 		secrecy = request.form["secrecy"]
 		check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
 		if check_topic:
-			return error("topic_error")
+			return error("Kyseinen aihealue on jo olemassa")
 		if secrecy == "":
 			sql_topics = "INSERT INTO topics (Topic) VALUES (:topic)"
 			db.session.execute(text(sql_topics), {"topic":topic})
@@ -25,7 +25,7 @@ def remove_func():
 		topic = request.form["topic"]
 		check_topic = db.session.execute(text("SELECT Topic FROM topics WHERE Topic=:topic"), {"topic":topic}).fetchone()
 		if not check_topic:
-			return error("topic_not_found_error")
+			return error("Poistettavaa kohdetta ei löytynyt")
 		sql_topics = "DELETE FROM topics WHERE Topic=:topic"
 		db.session.execute(text(sql_topics), {"topic":topic})
 		sql_headers = "DELETE FROM headers WHERE topic=:topic"
