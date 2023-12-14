@@ -7,9 +7,9 @@
 {% if session.username %}
 <div class="container">
 	<div class="row">
-		<div class="col-12">
-			<h1>Keskustelu-App</h1>
-		</div>
+	<nav class="navbar navbar-expand-sm navbar-light">
+		<a class="navbar-brand" href="/">Keskustelu-App</a>
+	</nav>
 	</div>
 	<div class="row">
 		<div class="col-8">
@@ -83,21 +83,36 @@
 
 
 {% else %}
-<form action="/login" method="POST">
-<p>Tunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password"></p>
-<input type="submit" value="Kirjaudu">
-</form>
-<form action="/register" method="POST">
-<p>Tunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password"></p>
-<input type="submit" value="Rekisteröidy">
-<input type='checkbox' id="admin" value='1' name='admin'>
-<label for='admin'>Admin</label>
-<input type='hidden' value='0' name='admin'>
-</form>
+<div class="container">
+	<div class="row">
+	<nav class="navbar navbar-expand-sm navbar-light">
+		<a class="navbar-brand" href="/">Keskustelu-App</a>
+	</nav>
+	</div>
+	<div class="row">
+		<form action="/login" method="POST">
+			<div class="form-group col-12">
+				<label for="username">Käyttäjänimi:</label>
+				<input type="text" name="username">
+				<label for="password">Salasana:</label>
+				<input type="password" name="password">
+				<button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<form action="/register" method="POST">
+			<div class="form-group col-12">
+				<label for="username">Käyttäjänimi:</label>
+				<input type="text" name="username">
+				<label for="password">Salasana:</label>
+				<input type="password" name="password">
+				<button type="submit" class="btn btn-primary">Rekisteröidy</button>
+				<label for="admin">Admin:</label>
+				<input type="checkbox" id="admin" name="admin" value="1">
+				<input type="hidden" name="admin" value="0">
+			</div>
+		</form>
+	</div>
+</div>
 {% endif %}

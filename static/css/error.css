@@ -1,0 +1,32 @@
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f8f8f8;
+	color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	margin: 0;
+  }
+  
+  .container {
+	text-align: center;
+  }
+  
+  h1 {
+	font-size: 3em;
+	color: #dc3545; /* Red color for emphasis */
+  }
+  
+  p {
+	font-size: 1.2em;
+  }
+  
+  a {
+	color: #007bff; /* Blue color for links */
+	text-decoration: none;
+  }
+  
+  a:hover {
+	text-decoration: underline;
+  }

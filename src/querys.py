@@ -83,3 +83,8 @@ def get_header(header_id):
 	sql = "SELECT * FROM headers WHERE id=:header_id"
 	header = db.session.execute(text(sql), {"header_id":header_id}).fetchone()
 	return header
+
+def get_topic(topic_id):
+	sql = "SELECT topic FROM topics WHERE id=:topic_id"
+	topic = db.session.execute(text(sql), {"topic_id":topic_id}).fetchone()[0]
+	return topic

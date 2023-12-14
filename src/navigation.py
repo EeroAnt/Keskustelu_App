@@ -1,7 +1,7 @@
 from flask import render_template, abort, redirect, request, session
 from src.db import db
 from sqlalchemy import text
-from src.querys import listing_for_index, get_headers_for_topic, get_messages, get_message, get_header
+from src.querys import listing_for_index, get_headers_for_topic, get_messages, get_message, get_header, get_topic
 from src.time_formatter import format_timestamp
 from src.clearance import check_clearance_level
 
@@ -13,7 +13,8 @@ def to_index():
 def to_topic(topic_id):
 	if check_clearance_level(topic_id):
 		result = get_headers_for_topic(topic_id)
-		return render_template("topic.html", conversations=result, topic_id=topic_id)
+		topic = get_topic(topic_id)
+		return render_template("topic.html", conversations=result, topic_id=topic_id, topic=topic)
 	else:
 		abort(404)
 
