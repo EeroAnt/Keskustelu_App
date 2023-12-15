@@ -9,6 +9,10 @@ Repositoirion juurihakemistossa tulee ajaa komennot
  - 'source venv/bin/activate'
  - 'pip install -r requirements.txt'
  - 'psql < schema.sql'
+ - luo .env tiedosto, jonka sisälle rivit: '
+   - DATABASE_URI=postgresql+psycopg2:///keskustelu_app
+   - SECRET_KEY=
+ - SECRET_KEY:n voit luoda haluamallasi tavalla
 
 'run flask' pitäisi ohjelman lähteä käyntiin, jonka jälkeen voi localhostissa ajaa ohjelmaa paikallisesti
 
